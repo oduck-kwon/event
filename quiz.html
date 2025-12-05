@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>2025 IT본부 퀴즈</title>
+  <meta name="description" content="시맨틱 태그, 폼, 테이블, 이미지 등 예제 모음" />
+  <style>
+    /* 간단한 스타일 (테스트용) */
+    body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans KR"; line-height: 1.6; padding: 1rem; }
+    header, nav, main, footer, aside, section { margin-bottom: 1rem; }
+    nav ul { list-style: none; padding: 0; display:flex; gap:0.5rem; }
+    .container { max-width: 900px; margin: 0 auto; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid #ccc; padding: 0.5rem; text-align: left; }
+    form > * { display:block; margin:0.4rem 0; }
+    .box {
+  margin : 20px; 
+  padding : 30px;
+  border : 1px solid black;
+  border-radius : 5px;
+}
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- 헤더 -->
+    <header>
+      <h1>2025 IT본부</h1>
+      <p>모두 참여해 주시면 감사하겠습니다. (make by 권오덕) </p>
+    </header>
+    
+    <main>
+      <!-- 소개 섹션 -->
+      <section id="intro">
+        <h2 id="title">소개 (section)</h2>
+        <p id="content">문단은 &lt;p&gt; 태그로 만듭니다. <strong>강조</strong>는 &lt;strong&gt;, <em>이탤릭</em>은 &lt;em&gt; 를 사용합니다.</p>
+        <ul id="content_arr">
+          <li>순서 없는 리스트 (&lt;ul&gt;)</li>
+          <li>순서 있는 리스트 (&lt;ol&gt;)</li>
+        </ul>
+        <div class="box"></div>
+      </section>
+    </main>
+
+    <!-- 푸터 -->
+    <footer>
+    </footer>
+  </div>
+
+  <!-- 간단한 스크립트 -->
+  <script>
+    // 페이지 로드 시 폼 제출 방지(데모용)
+    document.addEventListener('DOMContentLoaded', () => {
+      const form = document.querySelector('form');
+      if (form) {
+        form.addEventListener('submit', (e) => {
+          e.preventDefault();
+          alert('제출(데모): 폼 데이터를 서버로 전송하지 않습니다.');
+        });
+      }
+    });
+  </script>
+</body>
+</html>

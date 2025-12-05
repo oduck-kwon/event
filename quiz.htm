@@ -14,14 +14,17 @@
     table { border-collapse: collapse; width: 100%; }
     th, td { border: 1px solid #ccc; padding: 0.5rem; text-align: left; }
     form > * { display:block; margin:0.4rem 0; }
-    .box {
-    display: inline-block;
-    width: 1em;           /* 글자 크기 기준 정사각형 */
-    height: 1em;
-    border: 1px solid #333;
-    border-radius: 3px;
-    margin: 0 2px;
-    vertical-align: middle; /* 텍스트와 수평 정렬 */
+    /* 모바일에서도 글자 크게 보이도록 반응형 폰트 */
+    .square-text {
+      font-size: clamp(20px, 6vw, 40px); /* 화면 너비에 따라 자동 조정 */
+      width: 1em;   /* 글자 크기 기준 */
+      height: 1em;  /* 정사각형 유지 */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f0f0f0;
+      border-radius: 6px;
+    }
 }
 
   </style>
@@ -80,7 +83,7 @@
         document.getElementById("content_array").style.display = "";	
       }else{
         console.log("단일");     
-         document.getElementById("content").innerHTML = content.replace(/\*/gi, '<span class="box"></span>');
+         document.getElementById("content").innerHTML = content.replace(/\*/gi, '<span class="square-text"></span>');
          document.getElementById("content").style.display = "";	
       }
       

@@ -18,19 +18,20 @@
    .square-wrap {
     display: flex;
     flex-wrap: nowrap;    /* 줄바꿈 방지 */
-    gap: 8px;             /* 박스 간 간격 */
+    gap: 10px;             /* 박스 간 간격 */
     overflow-x: auto;     /* 만약 화면이 좁으면 가로 스크롤 */
     padding-bottom: 10px; /* 미세 공간 */
     -webkit-overflow-scrolling: touch;
   }
   .square-text {
-    font-size: clamp(20px, 6vw, 40px);
-    width: 1em;
-    height: 1em;
+    font-size: clamp(28px, 7vw, 50px);
+    width: 1.1em;
+    height: 1.1em;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #f0f0f0;
+    background: #fff;       
+    border: 2px solid #000;            /* 검정 테두리 굵게 */
     border-radius: 6px;
     flex-shrink: 0;       /* 좁아져도 박스 크기 유지 (줄내림 방지 핵심) */
   }

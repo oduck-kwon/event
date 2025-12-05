@@ -15,77 +15,98 @@
     th, td { border: 1px solid #ccc; padding: 0.5rem; text-align: left; }
     form > * { display:block; margin:0.4rem 0; }
     .box {
-  margin : 5px; 
-  padding : 10px;
-  width: 3px;
-  border : 1px solid black;
-  border-radius : 5px;
+    display: inline-block;
+    width: 1em;           /* 글자 크기 기준 정사각형 */
+    height: 1em;
+    border: 1px solid #333;
+    border-radius: 3px;
+    margin: 0 2px;
+    vertical-align: middle; /* 텍스트와 수평 정렬 */
 }
 
   </style>
 	<script type="text/javascript">
-	  function httpReq(loadURL) {
+    var step;
+    
+	  function httpReq(loadURL, callback) {
   	  var xhr = new XMLHttpRequest();
 				
-				/*
-				try{
-					xhr.responseType = "arraybuffer";
-				}catch(e) {
-					xhr.overrideMimeType("text/plain; charset=utf-8");
-				}
-				*/
 				xhr.onload = function(){
 					
 					if(xhr.readyState == 4 && xhr.status == 200) {
-/*
-						var responseText;
-						
-						try {
-							var euckrDecoder = new TextDecoder("utf-8");
-							responseText = euckrDecoder.decode(xhr.response);
-						}catch(e) {
-							responseText = xhr.response;
-						}
-						
-						return responseText;
-						*/
-						return JSON.parse(xhr.responseText);
-					}else{
-					  return "FAIL";
+            callback(null, xhr.responseText);
 					}
 	      }
 	      
-	     	xhr.open("GET", loadURL, true);
+	     	xhr.open("GET", loadURL);
 				xhr.send();
 	  }
 	  
 	  function init() {
-	    var jsonStr = httpReq("https://raw.githubusercontent.com/oduck-kwon/event/main/quiz_2025.json");
-	    
-	   // document.body.innerHTML = jsonStr;
-	    console.log(jsonStr);
+	    httpReq("https://tpay2.billgate.net/paytest/odkwon/event_2025/step.jsp?gubun=GET", stepResult);
 	  }
 	  
+	  function stepResult(err, result) {
+     step = result;
+
+	   if ( step == "0") {
+	      document.getElementById("intro").style.display = "";	   
+	   }else{
+  	   httpReq("https://raw.githubusercontent.com/oduck-kwon/event/main/quiz_2025.json", jsonResult);
+	   }
+
+	  }
+	  
+	  function jsonResult(err, result) {
+    
+	    const json = JSON.parse(result);
+	    
+	    const jsonSub = json[step];
+	    	    
+	    var title = jsonSub["title"];
+	    var content = jsonSub["content"];
+
+      document.getElementById("title").innerHTML = title;
+      
+      if ( Array.isArray(content) ) {
+        console.log("배열");
+
+        for (var i = 0; i < content.length; i++) {
+          const newLi = document.createElement('li');
+          newLi.textContent = content[i];
+          document.getElementById("content_array").appendChild(newLi);
+        }
+        
+        document.getElementById("content_array").style.display = "";	
+      }else{
+        console.log("단일");     
+         document.getElementById("content").innerHTML = content.replace(/\*/gi, '<span class="box"></span>');
+         document.getElementById("content").style.display = "";	
+      }
+      
+      document.getElementById("quiz").style.display = "";	
+	  }
 	</script>
 </head>
 <body onload="init();">
   <div class="container">
     <!-- 헤더 -->
     <header>
-      <h1>2025 IT본부</h1>
+      <h1>2025 IT본부 퀴즈</h1>
       <p>모두 참여해 주시면 감사하겠습니다. (make by 권오덕) </p>
     </header>
     
     <main>
       <!-- 소개 섹션 -->
-      <section id="intro">
-        <h2 id="title">소개 (section)</h2>
-        <p id="content">문단은 &lt;p&gt; 태그로 만듭니다. <strong>강조</strong>는 &lt;strong&gt;, <em>이탤릭</em>은 &lt;em&gt; 를 사용합니다.</p>
-        <ul id="content_arr">
-          <li>순서 없는 리스트 (&lt;ul&gt;)</li>
-          <li>순서 있는 리스트 (&lt;ol&gt;)</li>
+      <section id="intro" style="display:none;">
+        <p style="color:red;"><strong>잠시후 퀴즈 행사가 시작 됩니다.<br>잠시만 기다려주세요.</strong></p>
+      </section>
+      
+      <section id="quiz" style="display:none;">
+        <h2 id="title">&nbsp;</h2>
+        <p id="content" style="font-weight: bold;color:red;display:none;">&nbsp;</p>
+        <ul id="content_array" style="font-weight: bold;color:red;display:none;">
         </ul>
-        <div class="box"></div>
       </section>
     </main>
 

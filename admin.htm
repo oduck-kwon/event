@@ -15,6 +15,41 @@
     th, td { border: 1px solid #ccc; padding: 0.5rem; text-align: left; }
     form > * { display:block; margin:0.4rem 0; }
   </style>
+  <script type="text/javascript">
+    var step;
+    
+	  function httpReq(loadURL, callback) {
+  	  var xhr = new XMLHttpRequest();
+				
+				xhr.onload = function(){
+					
+					if(xhr.readyState == 4 && xhr.status == 200) {
+            callback(null, xhr.responseText);
+					}
+	      }
+	      
+	     	xhr.open("GET", loadURL);
+				xhr.send();
+	  }
+	  
+	  function stepUpdate() {
+	    var stepVal = document.getElementById("step").value;
+	    
+	    if ( stepVal == "" ) {
+	      alert("입력 해주세요");
+	      return;
+	    }
+	    
+	    httpReq("https://tpay2.billgate.net/paytest/odkwon/event_2025/step.jsp?gubun=PUT&step="+stepVal, stepUpdateResult);
+	  }
+	  
+	  function stepUpdateResult(err, result) {
+     document.getElementById("result").innerHTML = document.getElementById("step").value+"="+result;
+	  }
+	  
+	 
+	</script>
+	
 </head>
 <body>
   <div class="container">
@@ -29,9 +64,10 @@
       <section id="form">
         <form method="post">
           <label for="step">스텝(숫자)</label>
-          <input id="step" name="step" type="text" placeholder="숫자를 입력해주세요." required />
+          <input id="step" type="text" placeholder="숫자를 입력해주세요." required />
         </form>
-        <button type="button" onclick="updateGithubFile();">제출</button>
+        <button type="button" onclick="stepUpdate();">제출</button>
+        <p id="result" style="color:red;"></p>
       </section>
     </main>
 
@@ -40,51 +76,6 @@
     </footer>
   </div>
 
-  <!-- 간단한 스크립트 -->
-  <script>
-async function updateGithubFile() {
-  const token = "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"; // 생성한 토큰 입력
-  const owner = "oduck-kwon";
-  const repo = "event";
-  const path = "step.inf";
-
-  // 1) 현재 파일 정보 가져와서 SHA 얻기
-  const fileRes = await fetch(
-    `https://api.github.com/repos/${owner}/${repo}/contents/${path}`, 
-    {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    }
-  );
-  
-  const fileData = await fileRes.json();
-  const sha = fileData.sha;
-
-  // 2) 수정할 내용
-  const newText = "1";
-  const base64Content = btoa(newText); // 브라우저용 Base64 인코딩
-
-  // 3) 파일 업데이트 요청
-  const updateRes = await fetch(
-    `https://api.github.com/repos/${owner}/${repo}/contents/${path}`,
-    {
-      method: "PUT",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        message: "Update step.inf via browser JS",
-        content: base64Content,
-        sha: sha
-      })
-    }
-  );
-
-  const result = await updateRes.json();
-  console.log("업데이트 결과:", result);
-}
-  </script>
+ 
 </body>
 </html>

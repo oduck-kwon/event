@@ -1,1 +1,90 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>이벤트 어드민</title>
+  <meta name="description" content="시맨틱 태그, 폼, 테이블, 이미지 등 예제 모음" />
+  <style>
+    /* 간단한 스타일 (테스트용) */
+    body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans KR"; line-height: 1.6; padding: 1rem; }
+    header, nav, main, footer, aside, section { margin-bottom: 1rem; }
+    nav ul { list-style: none; padding: 0; display:flex; gap:0.5rem; }
+    .container { max-width: 900px; margin: 0 auto; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid #ccc; padding: 0.5rem; text-align: left; }
+    form > * { display:block; margin:0.4rem 0; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- 헤더 -->
+    <header>
+      <h1>2025 IT 본부퀴즈 어드민</h1>
+      <p>스텝 입력란에 숫자를 입력해주세요.</p>
+    </header>
 
+    <main>
+      <!-- 폼 예제 -->
+      <section id="form">
+        <form method="post">
+          <label for="step">스텝(숫자)</label>
+          <input id="step" name="step" type="text" placeholder="숫자를 입력해주세요." required />
+        </form>
+        <button type="button" onclick="updateGithubFile();">제출</button>
+      </section>
+    </main>
+
+    <!-- 푸터 -->
+    <footer>
+    </footer>
+  </div>
+
+  <!-- 간단한 스크립트 -->
+  <script>
+async function updateGithubFile() {
+  const token = "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"; // 생성한 토큰 입력
+  const owner = "oduck-kwon";
+  const repo = "event";
+  const path = "step.inf";
+
+  // 1) 현재 파일 정보 가져와서 SHA 얻기
+  const fileRes = await fetch(
+    `https://api.github.com/repos/${owner}/${repo}/contents/${path}`, 
+    {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }
+  );
+  
+  const fileData = await fileRes.json();
+  const sha = fileData.sha;
+
+  // 2) 수정할 내용
+  const newText = "API로 수정된 내용입니다.\n" + Date.now();
+  const base64Content = btoa(newText); // 브라우저용 Base64 인코딩
+
+  // 3) 파일 업데이트 요청
+  const updateRes = await fetch(
+    `https://api.github.com/repos/${owner}/${repo}/contents/${path}`,
+    {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        message: "Update step.inf via browser JS",
+        content: base64Content,
+        sha: sha
+      })
+    }
+  );
+
+  const result = await updateRes.json();
+  console.log("업데이트 결과:", result);
+}
+  </script>
+</body>
+</html>

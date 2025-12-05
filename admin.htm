@@ -62,7 +62,7 @@ async function updateGithubFile() {
   const sha = fileData.sha;
 
   // 2) 수정할 내용
-  const newText = "API로 수정된 내용입니다.\n" + Date.now();
+  const newText = "1";
   const base64Content = btoa(newText); // 브라우저용 Base64 인코딩
 
   // 3) 파일 업데이트 요청

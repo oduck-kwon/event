@@ -15,15 +15,60 @@
     th, td { border: 1px solid #ccc; padding: 0.5rem; text-align: left; }
     form > * { display:block; margin:0.4rem 0; }
     .box {
-  margin : 20px; 
-  padding : 30px;
+  margin : 5px; 
+  padding : 10px;
+  width: 3px;
   border : 1px solid black;
   border-radius : 5px;
 }
 
   </style>
+	<script type="text/javascript">
+	  function httpReq(loadURL) {
+  	  var xhr = new XMLHttpRequest();
+				
+				/*
+				try{
+					xhr.responseType = "arraybuffer";
+				}catch(e) {
+					xhr.overrideMimeType("text/plain; charset=utf-8");
+				}
+				*/
+				xhr.onload = function(){
+					
+					if(xhr.readyState == 4 && xhr.status == 200) {
+/*
+						var responseText;
+						
+						try {
+							var euckrDecoder = new TextDecoder("utf-8");
+							responseText = euckrDecoder.decode(xhr.response);
+						}catch(e) {
+							responseText = xhr.response;
+						}
+						
+						return responseText;
+						*/
+						return JSON.parse(xhr.responseText);
+					}else{
+					  return "FAIL";
+					}
+	      }
+	      
+	     	xhr.open("GET", loadURL, true);
+				xhr.send();
+	  }
+	  
+	  function init() {
+	    var jsonStr = httpReq("https://raw.githubusercontent.com/oduck-kwon/event/main/quiz_2025.json");
+	    
+	    document.body.innerHTML = jsonStr;
+	    console.log(jsonStr);
+	  }
+	  
+	</script>
 </head>
-<body>
+<body onload="init();">
   <div class="container">
     <!-- 헤더 -->
     <header>
@@ -49,18 +94,5 @@
     </footer>
   </div>
 
-  <!-- 간단한 스크립트 -->
-  <script>
-    // 페이지 로드 시 폼 제출 방지(데모용)
-    document.addEventListener('DOMContentLoaded', () => {
-      const form = document.querySelector('form');
-      if (form) {
-        form.addEventListener('submit', (e) => {
-          e.preventDefault();
-          alert('제출(데모): 폼 데이터를 서버로 전송하지 않습니다.');
-        });
-      }
-    });
-  </script>
 </body>
 </html>

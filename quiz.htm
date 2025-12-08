@@ -86,7 +86,7 @@
 
         for (var i = 0; i < content.length; i++) {
           const newLi = document.createElement('li');
-          newLi.textContent = content[i];
+          newLi.textContent = content[i].replace(/\*/gi, '<span class="square-text"></span>');
           document.getElementById("content_array").appendChild(newLi);
         }
         

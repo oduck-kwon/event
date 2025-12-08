@@ -85,7 +85,8 @@
 
         for (var i = 0; i < content.length; i++) {
           const newLi = document.createElement('li');
-          newLi.innerHTML = content[i].replace(/\*/gi, '<span class="square-text"></span>');
+          newLi.classList.add("square-wrap");
+		  newLi.innerHTML = content[i].replace(/\*/gi, '<span class="square-text"></span>');
           document.getElementById("content_array").appendChild(newLi);
         }
         
@@ -118,7 +119,7 @@
       <section id="quiz" style="display:none;">
         <h2 id="title">&nbsp;</h2>
         <p id="content" class="square-wrap" style="font-weight: bold;color:red;display:none;">&nbsp;</p>
-        <ul id="content_array" class="square-wrap" style="font-weight: bold;color:red;display:none;">
+        <ul id="content_array" style="font-weight: bold;color:red;display:none;">
         </ul>
       </section>
     </main>

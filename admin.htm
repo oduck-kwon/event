@@ -32,19 +32,13 @@
 				xhr.send();
 	  }
 	  
-	  function stepUpdate() {
-	    var stepVal = document.getElementById("step").value;
-	    
-	    if ( stepVal == "" ) {
-	      alert("입력 해주세요");
-	      return;
-	    }
-	    
-	    httpReq("https://tpay2.billgate.net/paytest/odkwon/event_2025/step.jsp?gubun=PUT&step="+stepVal, stepUpdateResult);
+	  function stepUpdate(num) {
+      step = num;
+	    httpReq("https://tpay2.billgate.net/paytest/odkwon/event_2025/step.jsp?gubun=PUT&step="+step, stepUpdateResult);
 	  }
 	  
 	  function stepUpdateResult(err, result) {
-     document.getElementById("result").innerHTML = document.getElementById("step").value+"="+result;
+     document.getElementById("result").innerHTML = step+"="+result;
 	  }
 	  
 	 
@@ -56,17 +50,38 @@
     <!-- 헤더 -->
     <header>
       <h1>2025 IT 본부퀴즈 어드민</h1>
-      <p>스텝 입력란에 숫자를 입력해주세요.</p>
+      <p>스텝 숫자 버튼을 클릭해주세요.</p>
     </header>
 
     <main>
       <!-- 폼 예제 -->
       <section id="form">
-        <form method="post">
-          <label for="step">스텝(숫자)</label>
-          <input id="step" type="text" placeholder="숫자를 입력해주세요." required />
-        </form>
-        <button type="button" onclick="stepUpdate();">제출</button>
+        &nbsp;<button type="button" onclick="stepUpdate(this.textContent);">0</button><br/>
+        &nbsp;<button type="button" onclick="stepUpdate(this.textContent);">1</button>
+        &nbsp;<button type="button" onclick="stepUpdate(this.textContent);">2</button>
+        &nbsp;<button type="button" onclick="stepUpdate(this.textContent);">3</button>
+        &nbsp;<button type="button" onclick="stepUpdate(this.textContent);">4</button>
+        &nbsp;<button type="button" onclick="stepUpdate(this.textContent);">5</button><br/>
+        &nbsp;<button type="button" onclick="stepUpdate(this.textContent);">6</button>
+        &nbsp;<button type="button" onclick="stepUpdate(this.textContent);">7</button>
+        &nbsp;<button type="button" onclick="stepUpdate(this.textContent);">8</button>
+        &nbsp;<button type="button" onclick="stepUpdate(this.textContent);">9</button>
+        &nbsp;<button type="button" onclick="stepUpdate(this.textContent);">10</button><br/>
+        &nbsp;<button type="button" onclick="stepUpdate(this.textContent);">11</button>
+        &nbsp;<button type="button" onclick="stepUpdate(this.textContent);">12</button>
+        &nbsp;<button type="button" onclick="stepUpdate(this.textContent);">13</button>
+        &nbsp;<button type="button" onclick="stepUpdate(this.textContent);">14</button>
+        &nbsp;<button type="button" onclick="stepUpdate(this.textContent);">15</button><br/>
+        &nbsp;<button type="button" onclick="stepUpdate(this.textContent);">16</button>
+        &nbsp;<button type="button" onclick="stepUpdate(this.textContent);">17</button>
+        &nbsp;<button type="button" onclick="stepUpdate(this.textContent);">18</button>
+        &nbsp;<button type="button" onclick="stepUpdate(this.textContent);">19</button>
+        &nbsp;<button type="button" onclick="stepUpdate(this.textContent);">20</button><br/>        
+        &nbsp;<button type="button" onclick="stepUpdate(this.textContent);">21</button>
+        &nbsp;<button type="button" onclick="stepUpdate(this.textContent);">22</button>
+        &nbsp;<button type="button" onclick="stepUpdate(this.textContent);">23</button>
+        &nbsp;<button type="button" onclick="stepUpdate(this.textContent);">24</button>
+        &nbsp;<button type="button" onclick="stepUpdate(this.textContent);">25</button><br/>                
         <p id="result" style="color:red;"></p>
       </section>
     </main>
